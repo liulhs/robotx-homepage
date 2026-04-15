@@ -40,7 +40,7 @@ export default function HeroSection() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="font-[family-name:var(--font-heading)] font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] tracking-tight mb-8 max-w-5xl"
+          className="font-[family-name:var(--font-heading)] font-extrabold text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] tracking-tight mb-8 max-w-5xl"
           style={{ perspective: "800px" }}
         >
           {words.map((word, i) => (
