@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import { MEDIA } from "@/lib/media";
-import { fadeInUp, slideInRight } from "@/lib/animations";
+import { slideInRight } from "@/lib/animations";
 
 export default function OverviewSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
