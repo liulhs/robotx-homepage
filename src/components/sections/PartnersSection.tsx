@@ -10,7 +10,7 @@ export default function PartnersSection() {
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-16 mb-16">
+      <div className="max-w-6xl mx-auto px-8 md:px-16 mb-16">
         <div className="text-center">
           <SectionLabel>Partnerships</SectionLabel>
           <RevealOnScroll>

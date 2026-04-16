@@ -34,7 +34,7 @@ export default function PlatformSection() {
       {/* Content */}
       <motion.div
         style={{ opacity }}
-        className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 py-24 md:py-40"
+        className="relative z-10 max-w-6xl mx-auto px-8 md:px-16 py-24 md:py-40"
       >
         <SectionLabel>Platform</SectionLabel>
 

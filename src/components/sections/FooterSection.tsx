@@ -6,7 +6,7 @@ import { COMPANY, NAV_LINKS } from "@/lib/constants";
 export default function FooterSection() {
   return (
     <footer id="contact" className="relative border-t border-border">
-      <div className="max-w-7xl mx-auto px-6 lg:px-16 py-20">
+      <div className="max-w-6xl mx-auto px-8 md:px-16 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Brand column */}
           <div className="lg:col-span-2">
@@ -44,17 +44,17 @@ export default function FooterSection() {
             </h4>
             <ul className="space-y-4">
               {[
-                "Security & Inspection",
-                "Firefighting & Rescue",
-                "Industrial Automation",
-                "Mobile Manipulation",
+                { name: "Security & Inspection", href: "/solutions" },
+                { name: "Firefighting & Rescue", href: "/solutions" },
+                { name: "Industrial Automation", href: "/solutions" },
+                { name: "Mobile Manipulation", href: "/products" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.name}>
                   <a
-                    href="#solutions"
+                    href={item.href}
                     className="text-sm text-text-secondary hover:text-accent transition-colors duration-300"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 </li>
               ))}

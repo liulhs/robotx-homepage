@@ -21,10 +21,10 @@ export default function HeroSection() {
       />
 
       {/* Subtle side gradient for depth */}
-      <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/70 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/60 via-transparent to-transparent" />
 
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-end pb-24 md:pb-32 px-6 lg:px-16 max-w-7xl mx-auto">
+      {/* Content -- centered */}
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-8 md:px-16 max-w-6xl mx-auto">
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -40,7 +40,7 @@ export default function HeroSection() {
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
-          className="font-[family-name:var(--font-heading)] font-extrabold text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] tracking-tight mb-8 max-w-5xl"
+          className="font-[family-name:var(--font-heading)] font-extrabold text-[2.75rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] tracking-tight mb-8"
           style={{ perspective: "800px" }}
         >
           {words.map((word, i) => (
@@ -73,12 +73,12 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.3, duration: 0.6 }}
-          className="flex flex-wrap gap-4"
+          className="flex flex-wrap justify-center gap-4"
         >
-          <Button href="#solutions" variant="filled">
+          <Button href="/solutions" variant="filled">
             Explore Solutions
           </Button>
-          <Button href="#contact" variant="outlined">
+          <Button href="/contact" variant="outlined">
             Contact Us
           </Button>
         </motion.div>

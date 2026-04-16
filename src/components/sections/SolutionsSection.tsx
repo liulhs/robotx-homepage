@@ -55,17 +55,19 @@ const ICONS: Record<string, React.ReactNode> = {
 
 export default function SolutionsSection() {
   return (
-    <section id="solutions" className="relative py-24 md:py-40 px-6 lg:px-16">
-      <div className="max-w-7xl mx-auto">
-        <SectionLabel>Our Focus</SectionLabel>
+    <section id="solutions" className="relative py-24 md:py-40 px-8 md:px-16">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-20">
+          <SectionLabel>Our Focus</SectionLabel>
 
-        <RevealOnScroll>
-          <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl md:text-5xl lg:text-[3.5rem] leading-tight tracking-tight mt-6 mb-20 max-w-4xl">
+          <RevealOnScroll>
+            <h2 className="font-[family-name:var(--font-heading)] font-bold text-3xl md:text-5xl lg:text-[3.5rem] leading-tight tracking-tight mt-6 max-w-4xl mx-auto">
             Robotic applications that create{" "}
             <span className="text-accent">tangible impact</span> in the real
             world.
           </h2>
-        </RevealOnScroll>
+          </RevealOnScroll>
+        </div>
 
         {/* Solution cards */}
         <motion.div

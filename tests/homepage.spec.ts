@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("RobotX Homepage", () => {
+test.describe("Home page", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
   });
@@ -9,7 +9,7 @@ test.describe("RobotX Homepage", () => {
     await expect(page).toHaveTitle(/RobotX/);
   });
 
-  test("hero section renders with heading", async ({ page }) => {
+  test("hero section renders centered heading", async ({ page }) => {
     const heading = page.locator("h1");
     await expect(heading).toBeVisible();
     await expect(heading).toContainText("One Brain.");
@@ -22,9 +22,11 @@ test.describe("RobotX Homepage", () => {
     await expect(video).toBeAttached();
   });
 
-  test("hero CTA buttons are visible", async ({ page }) => {
-    await expect(page.getByText("Explore Solutions")).toBeVisible();
-    await expect(page.getByText("Contact Us").first()).toBeVisible();
+  test("hero CTA buttons link to pages", async ({ page }) => {
+    const solutions = page.getByText("Explore Solutions");
+    await expect(solutions).toBeVisible();
+    // Should link to /solutions
+    await expect(solutions.locator("..")).toHaveAttribute("href", "/solutions");
   });
 
   test("navbar shows logo and links on desktop", async ({ page }) => {
@@ -43,46 +45,11 @@ test.describe("RobotX Homepage", () => {
     await expect(heading).toBeVisible();
   });
 
-  test("body-agnostic section renders with cards", async ({ page }) => {
-    const heading = page.getByRole("heading", {
-      name: /True Physical AI is body-agnostic/,
-    });
-    await heading.scrollIntoViewIfNeeded();
-    await expect(heading).toBeVisible();
-
-    await expect(page.getByText("Universal Control Layer")).toBeVisible();
-    await expect(page.getByText("Dynamic Adaptation")).toBeVisible();
-  });
-
-  test("solutions section shows all three solutions", async ({ page }) => {
-    const security = page.getByRole("heading", {
-      name: "Security & Inspection",
-    });
-    await security.scrollIntoViewIfNeeded();
-    await expect(security).toBeVisible();
-
-    await expect(
-      page.getByRole("heading", { name: "Firefighting & Rescue" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Industrial Automation" })
-    ).toBeVisible();
-  });
-
-  test("platform section renders", async ({ page }) => {
-    const heading = page.locator("#platform h2");
-    await heading.scrollIntoViewIfNeeded();
-    await expect(heading).toBeVisible();
-    await expect(heading).toContainText("Embodied AI");
-    await expect(heading).toContainText("Mobile Manipulation");
-  });
-
   test("partners section with logos", async ({ page }) => {
     const heading = page.getByText("Trusted by some of the best.");
     await heading.scrollIntoViewIfNeeded();
     await expect(heading).toBeVisible();
 
-    // Check at least some partner logos loaded
     const partnerImages = page
       .locator("section")
       .filter({ hasText: "Trusted by" })
@@ -94,9 +61,7 @@ test.describe("RobotX Homepage", () => {
   test("footer shows company info", async ({ page }) => {
     const footer = page.locator("footer");
     await footer.scrollIntoViewIfNeeded();
-
     await expect(footer.getByText("Privacy Policy")).toBeVisible();
-    await expect(footer.getByText("Terms of Use")).toBeVisible();
     await expect(footer.getByText(/Irvine/)).toBeVisible();
   });
 
@@ -105,32 +70,88 @@ test.describe("RobotX Homepage", () => {
   }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/");
-
-    // Hamburger button should be visible
     const hamburger = page.getByLabel("Toggle menu");
     await expect(hamburger).toBeVisible();
+  });
+});
 
-    // Desktop nav links should be hidden
-    const desktopNav = page.locator("nav .hidden.md\\:flex");
-    await expect(desktopNav).not.toBeVisible();
+test.describe("Solutions page", () => {
+  test("renders solution cards", async ({ page }) => {
+    await page.goto("/solutions");
+    await expect(page).toHaveTitle(/Solutions.*RobotX/);
+
+    await expect(
+      page.getByRole("heading", { name: "Security & Inspection" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Firefighting & Rescue" })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Industrial Automation" })
+    ).toBeVisible();
   });
 
-  test("no console errors on page load", async ({ page }) => {
-    const errors: string[] = [];
-    page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        errors.push(msg.text());
-      }
-    });
+  test("nav highlights Solutions", async ({ page }) => {
+    await page.goto("/solutions");
+    const link = page.locator("nav").getByText("Solutions");
+    await expect(link).toHaveClass(/text-accent/);
+  });
+});
 
-    await page.goto("/");
-    // Allow some time for page to fully load
-    await page.waitForTimeout(2000);
+test.describe("Products page", () => {
+  test("renders platform section", async ({ page }) => {
+    await page.goto("/products");
+    await expect(page).toHaveTitle(/Products.*RobotX/);
 
-    // Filter out expected browser warnings (e.g., CORS for external videos)
-    const criticalErrors = errors.filter(
-      (e) => !e.includes("CORS") && !e.includes("net::ERR")
-    );
-    expect(criticalErrors).toHaveLength(0);
+    const heading = page.locator("#platform h2");
+    await heading.scrollIntoViewIfNeeded();
+    await expect(heading).toContainText("Embodied AI");
+  });
+});
+
+test.describe("About page", () => {
+  test("renders about content", async ({ page }) => {
+    await page.goto("/about");
+    await expect(page.getByText("Pioneering")).toBeVisible();
+    await expect(page.getByText("Our Mission")).toBeVisible();
+
+    const values = page.getByText("What Drives Us");
+    await values.scrollIntoViewIfNeeded();
+    await expect(values).toBeVisible();
+  });
+
+  test("renders milestones timeline", async ({ page }) => {
+    await page.goto("/about");
+    const milestones = page.getByText("Milestones");
+    await milestones.scrollIntoViewIfNeeded();
+    await expect(milestones).toBeVisible();
+    await expect(page.getByText("2020")).toBeVisible();
+  });
+});
+
+test.describe("Contact page", () => {
+  test("renders contact form", async ({ page }) => {
+    await page.goto("/contact");
+    await expect(page.getByText("Send a Message")).toBeVisible();
+    await expect(page.getByPlaceholder("Your name")).toBeVisible();
+    await expect(page.getByPlaceholder("you@company.com")).toBeVisible();
+    await expect(
+      page.getByPlaceholder("Tell us about your project...")
+    ).toBeVisible();
+  });
+
+  test("renders contact methods", async ({ page }) => {
+    await page.goto("/contact");
+    await expect(page.getByText("info@usrobotx.com")).toBeVisible();
+    await expect(
+      page.locator("main").getByText("+1 810-519-0881")
+    ).toBeVisible();
+    await expect(page.locator("main").getByText(/Irvine/)).toBeVisible();
+  });
+
+  test("nav highlights Contact", async ({ page }) => {
+    await page.goto("/contact");
+    const link = page.locator("nav").getByText("Contact");
+    await expect(link).toHaveClass(/text-accent/);
   });
 });

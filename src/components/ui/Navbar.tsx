@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, COMPANY } from "@/lib/constants";
 import { MEDIA } from "@/lib/media";
@@ -9,6 +11,7 @@ import { navReveal } from "@/lib/animations";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
@@ -39,27 +42,34 @@ export default function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-20">
+        <div className="max-w-6xl mx-auto px-8 md:px-16 flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="relative z-10 shrink-0">
+          <Link href="/" className="relative z-10 shrink-0">
             <img
               src={MEDIA.logo}
               alt={COMPANY.name}
               className="h-8 brightness-0 invert"
             />
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-10">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-[13px] font-medium tracking-[0.15em] uppercase text-white/70 hover:text-white transition-colors duration-300 font-[family-name:var(--font-heading)]"
-              >
-                {link.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={`text-[13px] font-medium tracking-[0.15em] uppercase transition-colors duration-300 font-[family-name:var(--font-heading)] ${
+                    isActive
+                      ? "text-accent"
+                      : "text-white/70 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* CTA + Hamburger */}
@@ -113,17 +123,22 @@ export default function Navbar() {
             className="fixed inset-0 z-40 bg-bg-primary/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8"
           >
             {NAV_LINKS.map((link, i) => (
-              <motion.a
+              <motion.div
                 key={link.label}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
-                className="text-3xl font-bold tracking-wider uppercase text-white font-[family-name:var(--font-heading)]"
               >
-                {link.label}
-              </motion.a>
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`text-3xl font-bold tracking-wider uppercase font-[family-name:var(--font-heading)] ${
+                    pathname === link.href ? "text-accent" : "text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
             <motion.a
               href={`tel:${COMPANY.phone}`}

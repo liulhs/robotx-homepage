@@ -36,7 +36,7 @@ export default function BodyAgnosticSection() {
       {/* Subtle diagonal accent */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-accent/[0.03] to-transparent" />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-16">
+      <div className="relative max-w-6xl mx-auto px-8 md:px-16">
         <SectionLabel>Our Approach</SectionLabel>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mt-8">
